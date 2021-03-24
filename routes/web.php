@@ -18,6 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('api/todo', [TodoController::class, 'index']);
-Route::post('api/todo', [TodoController::class, 'store']);
+// Route::get('api/todo', [TodoController::class, 'index']);
+// Route::post('api/todo', [TodoController::class, 'store']);
 
