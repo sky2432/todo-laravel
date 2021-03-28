@@ -6,7 +6,6 @@ use App\Models\Todo_list;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-
 class TodoController extends Controller
 {
     /**
@@ -14,18 +13,6 @@ class TodoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-        // $items = Todo_list::all();
-        $items = DB::table('todo_lists')
-        ->orderBy('id', 'desc')
-        ->get();
-        return response()->json([
-            'message' => 'OK',
-            'data' => $items
-        ], 200);
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -39,7 +26,7 @@ class TodoController extends Controller
         $item = new Todo_list;
         $item->member_id = $request->id;
         $item->todo_list = $request->todo;
-        $item->created_at = now();
+        $item->status = true;
         $item->save();
         return response()->json([
             'message' => 'Created successfully',
@@ -53,9 +40,18 @@ class TodoController extends Controller
      * @param  \App\Models\Todo_list  $todo_list
      * @return \Illuminate\Http\Response
      */
-    public function show(Todo_list $todo_list)
+    public function show($id)
     {
-        //
+        $items = DB::table('todo_lists')
+        ->where('member_id', $id)
+        ->where('status', true)
+        ->orderBy('id', 'desc')
+        ->get();
+        
+        return response()->json([
+                'message' => 'OK',
+                'data' => $items
+            ], 200);
     }
 
     /**
@@ -65,9 +61,22 @@ class TodoController extends Controller
      * @param  \App\Models\Todo_list  $todo_list
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Todo_list $todo_list)
+    public function update(Request $request, $id)
     {
         //
+        $item = Todo_list::find($id);
+        $item->todo_list = $request->todo_list;
+        $item->save();
+
+        if ($item) {
+            return response()->json([
+                'message' => 'Updated successfully',
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Not found',
+            ], 404);
+        }
     }
 
     /**
@@ -76,8 +85,20 @@ class TodoController extends Controller
      * @param  \App\Models\Todo_list  $todo_list
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Todo_list $todo_list)
+    public function destroy($id)
     {
-        //
+        $item = Todo_list::find($id);
+        $item->status = false;
+        $item->save();
+
+        if ($item) {
+            return response()->json([
+                'message' => 'Done successfully',
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Not found',
+            ], 404);
+        }
     }
 }

@@ -19,14 +19,16 @@ class MemberSeeder extends Seeder
         DB::table('members')->insert([
             [
             'name' => 'そら',
-            'email' => 'test@test.com',
+            'email' => 'test1@test.com',
             'password' => Hash::make('password'),
+            'file_path' => null,
             'created_at' => now(),
             ],
             [
             'name' => 'すい',
             'email' => 'test2@test.com',
             'password' => Hash::make('password'),
+            'file_path' => null,
             'created_at' => now(),
             ]
         ]);
