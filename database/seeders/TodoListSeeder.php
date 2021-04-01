@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -15,51 +16,63 @@ class TodoListSeeder extends Seeder
     public function run()
     {
         //
+        $now = new Carbon();
+        $today = $now->format('Y-m-d');
+        
+        $later = new Carbon();
+        $later->subDay();
+        $yesterday = $later->format('Y-m-d');
+
         DB::table('todo_lists')->insert([
             [
-            'member_id' => 1,
+            'user_id' => 1,
             'todo_list' => '読書',
             'status' => true,
             'created_at' => now(),
-            'deadline' => date("Y-m-d"),
+            'updated_at' => now(),
+            'deadline' => $yesterday,
             ],
             [
-            'member_id' => 2,
+            'user_id' => 1,
             'todo_list' => '部屋の片付け',
             'status' => true,
             'created_at' => now(),
-            'deadline' => date("Y-m-d"),
+            'updated_at' => now(),
+            'deadline' => $today,
             ],
             [
-            'member_id' => 1,
+            'user_id' => 1,
             'todo_list' => '洗濯',
             'status' => true,
             'created_at' => now(),
-            'deadline' => date("Y-m-d"),
-
+            'updated_at' => now(),
+            'deadline' => $today,
             ],
             [
-            'member_id' => 2,
+            'user_id' => 2,
             'todo_list' => '買い物',
             'status' => true,
             'created_at' => now(),
-            'deadline' => date("Y-m-d"),
+            'updated_at' => now(),
+            'deadline' => $yesterday,
 
             ],
             [
-            'member_id' => 1,
+            'user_id' => 2,
             'todo_list' => '支払い',
             'status' => true,
             'created_at' => now(),
-            'deadline' => date("Y-m-d"),
+            'updated_at' => now(),
+            'deadline' => $today,
 
             ],
             [
-            'member_id' => 2,
+            'user_id' => 2,
             'todo_list' => '書類整理',
             'status' => true,
             'created_at' => now(),
-            'deadline' => date("Y-m-d"),
+            'updated_at' => now(),
+            'deadline' => $today,
 
             ],
         ]);

@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class MemberSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,12 +16,12 @@ class MemberSeeder extends Seeder
     public function run()
     {
         //
-        DB::table('members')->insert([
+        DB::table('users')->insert([
             [
             'name' => 'そら',
             'email' => 'test1@test.com',
             'password' => Hash::make('password'),
-            'file_path' => '猫.jpg',
+            'file_path' => config('data.defaultImage'),
             'created_at' => now(),
             'updated_at'=> now(),
             ],
@@ -29,7 +29,7 @@ class MemberSeeder extends Seeder
             'name' => 'すい',
             'email' => 'test2@test.com',
             'password' => Hash::make('password'),
-            'file_path' => '猫.jpg',
+            'file_path' => config('data.defaultImage'),
             'created_at' => now(),
             'updated_at'=> now(),
             ]

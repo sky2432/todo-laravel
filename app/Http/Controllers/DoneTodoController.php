@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Todo_list;
-use Illuminate\Support\Facades\DB;
+use App\Models\TodoList;
 
 class DoneTodoController extends Controller
 {
     //
     public function show($id)
     {
-        $items = DB::table('todo_lists')
-        ->where('member_id', $id)
+        $items = TodoList::where('user_id', $id)
         ->where('status', false)
         ->orderBy('id', 'desc')
         ->get();
@@ -25,7 +22,7 @@ class DoneTodoController extends Controller
 
     public function update($id)
     {
-        $item = Todo_list::find($id);
+        $item = TodoList::find($id);
         $item->status = true;
         $item->save();
 
@@ -36,7 +33,7 @@ class DoneTodoController extends Controller
 
     public function destroy($id)
     {
-        Todo_list::find($id)->delete();
+        TodoList::find($id)->delete();
         
         return response()->json([
             'message' => 'Delete successfully',

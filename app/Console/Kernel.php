@@ -26,7 +26,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+  
         $schedule->command('command:send_remind_mail')->daily();
+        // ->appendOutputTo('../../storage/logs/laravel.log');
+        // ->sendOutputTo('../../storage/logs/command.log');
         // ->everyMinute();
     }
 

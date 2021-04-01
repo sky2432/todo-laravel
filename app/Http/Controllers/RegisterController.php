@@ -3,30 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Carbon\Carbon;
-use Mail;
+use App\Models\User;
 
 class RegisterController extends Controller
 {
     public function post(Request $request)
     {
-        $now = Carbon::now();
+        $item = new User();
+        $item->fill($request->all());
+
         $hashed_password = Hash::make($request->password);
-        $param = [
-            "name" => $request->name,
-            "email" => $request->email,
-            "password" => $hashed_password,
-            "file_path" => '猫.jpg',
-            "created_at" => $now,
-            "updated_at" => $now,
-        ];
-        DB::table('members')->insert($param);
+
+        $item->password = $hashed_password;
+        $item->file_path = config('data.defaultImage');
+        $item->save();
+
         return response()->json([
             'message' => 'User created successfully',
-            'data' => $param
+            'data' => $item
         ], 200);
     }
 }
-

@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Member;
-use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class FormValidateController extends Controller
 {
@@ -12,9 +11,9 @@ class FormValidateController extends Controller
     public function post(Request $request) {
         $errors = [];
 
-        $nameItem = Member::where('name', $request->name)->first();
+        $nameItem = User::where('name', $request->name)->first();
 
-        $emailItem = Member::where('email', $request->email)->first();
+        $emailItem = User::where('email', $request->email)->first();
 
         if($nameItem) {
             $errors['name'] = 'duplicate';

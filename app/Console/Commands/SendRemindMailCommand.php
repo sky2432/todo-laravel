@@ -3,8 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\Todo_list;
-use App\Models\Member;
+use App\Models\TodoList;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 
@@ -41,12 +40,11 @@ class SendRemindMailCommand extends Command
      */
     public function handle()
     {
-        //期限を過ぎたら通知
-        //期限の3時間前に通知
         $this->info('start');
         // Carbon::setTestNow(Carbon::parse('2021-04-01'));
+
         //完了しておらず、期日が設定されているリストを全件取得
-        $items = Todo_list::where('status', 1)->whereNotNull('deadline')->get();
+        $items = TodoList::where('status', 1)->whereNotNull('deadline')->get();
         $passedItems = [];
         //期日が過ぎているリストを取得
         foreach ($items as $item) {
@@ -54,7 +52,7 @@ class SendRemindMailCommand extends Command
             $today = Carbon::create($now->year, $now->month, $now->day);
             $deadline = new Carbon($item->deadline);
             $todoDeadline = $deadline->addDays(1);
-            if ($today->eq($todoDeadline)) {
+            if ($today >= $todoDeadline) {
                 $passedItems[] = $item;
             };
 
@@ -63,6 +61,8 @@ class SendRemindMailCommand extends Command
 
             // echo $todoDeadline;
             // echo "\n";
+            // echo "\n";
+            
 
             // echo $deadline;
         };
@@ -70,12 +70,12 @@ class SendRemindMailCommand extends Command
         //     echo $passedItem;
         //     echo "\n";
         // };
-
+        $this->info('sending email now');
         //メール送信
         foreach ($passedItems as $passedItem) {
-            $member = $passedItem->member;
-            Mail::send(['text' => 'emails.RemindMail'], ['item' => $passedItem, 'member' => $member], function ($message) use ($member) {
-                $message->to($member->email)
+            $user = $passedItem->user;
+            Mail::send(['text' => 'emails.remind_mail'], ['item' => $passedItem, 'user' => $user], function ($message) use ($user) {
+                $message->to($user->email)
                 ->from('todolist@test.com', 'Todoリスト')->subject('リマインドメール');
             });
         }

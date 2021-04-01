@@ -2,28 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Member;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
-class FileUploadController extends Controller
+class FileController extends Controller
 {
     //
     public function show($id)
     {
-        $item = Member::find($id);
+        $item = User::find($id);
         return response()->json([
             'message' => 'UserImage Get Ok',
             'data' => $item,
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update($id)
     {
-        $record = Member::find($id);
+        $record = User::find($id);
         $fileName = $record->file_path;
-        if ($fileName && $fileName !== '猫.jpg') {
+        if ($fileName && $fileName !== config('data.defaultImage')) {
             Storage::delete('public/image/' .$fileName);
         }
 
@@ -33,7 +32,7 @@ class FileUploadController extends Controller
         
         request()->file->storeAs('public/image/', $file_name);
         
-        $item = Member::find($id);
+        $item = User::find($id);
         $item->file_path = $file_name;
         $item->save();
         

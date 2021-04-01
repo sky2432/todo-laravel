@@ -3,24 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Member;
+use App\Models\User;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\SendRegisterMail;
-
-
-
 
 class SendRegisterMailController extends Controller
 {
     //
     public function post(Request $request)
     {
-        $user = Member::where('email', $request->email)->first();
+        $item = User::where('email', $request->email)->first();
 
-        Mail::to($user)->send(new SendRegisterMail($user));
-
-        return response()->json([
-            'data' => $user,
-        ]);
+        Mail::send(['text' => 'emails.register_mail'], ['item' => $item], function ($message) use ($item) {
+            $message->to($item->email)
+                ->from('todolist@test.com', 'Todoリスト')->subject('会員登録完了通知');
+        });
     }
 }

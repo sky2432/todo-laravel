@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Todo_list;
+use App\Models\TodoList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -18,12 +18,9 @@ class TodoController extends Controller
     public function store(Request $request)
     {
         //
-        $item = new Todo_list;
-        $item->member_id = $request->id;
-        $item->todo_list = $request->todo;
-        $item->deadline = $request->deadline;
-        $item->status = true;
-        $item->save();
+        $item = new TodoList;
+        $item ->fill($request->all())->save();
+
         return response()->json([
             'message' => 'Created successfully',
             'data' => $item,
@@ -33,13 +30,12 @@ class TodoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Todo_list  $todo_list
+     * @param  \App\Models\TodoList  $TodoList
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $items = DB::table('todo_lists')
-        ->where('member_id', $id)
+        $items = TodoList::where('user_id', $id)
         ->where('status', true)
         ->orderBy('id', 'desc')
         ->get();
@@ -54,16 +50,14 @@ class TodoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Todo_list  $todo_list
+     * @param  \App\Models\TodoList  $TodoList
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         //
-        $item = Todo_list::find($id);
-        $item->todo_list = $request->todo_list;
-        $item->deadline = $request->deadline;
-        $item->save();
+        $item = TodoList::find($id);
+        $item ->fill($request->all())->save();
 
         if ($item) {
             return response()->json([
@@ -79,12 +73,12 @@ class TodoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Todo_list  $todo_list
+     * @param  \App\Models\TodoList  $TodoList
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $item = Todo_list::find($id);
+        $item = TodoList::find($id);
         $item->status = false;
         $item->save();
 

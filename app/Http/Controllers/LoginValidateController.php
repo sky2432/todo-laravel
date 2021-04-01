@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Member;
+use App\Models\User;
 
 class LoginValidateController extends Controller
 {
@@ -14,7 +14,7 @@ class LoginValidateController extends Controller
     {
         $errors = [];
 
-        $item = DB::table('members')->where('email', $request->email)->first();
+        $item = User::where('email', $request->email)->first();
 
         if ($item) {
             if (Hash::check($request->password, $item->password)) {
