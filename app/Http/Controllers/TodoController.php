@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class TodoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     /**
      * Store a newly created resource in storage.
@@ -26,6 +21,7 @@ class TodoController extends Controller
         $item = new Todo_list;
         $item->member_id = $request->id;
         $item->todo_list = $request->todo;
+        $item->deadline = $request->deadline;
         $item->status = true;
         $item->save();
         return response()->json([
@@ -66,6 +62,7 @@ class TodoController extends Controller
         //
         $item = Todo_list::find($id);
         $item->todo_list = $request->todo_list;
+        $item->deadline = $request->deadline;
         $item->save();
 
         if ($item) {

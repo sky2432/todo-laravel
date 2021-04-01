@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Mail;
 
 class RegisterController extends Controller
 {
@@ -17,6 +18,7 @@ class RegisterController extends Controller
             "name" => $request->name,
             "email" => $request->email,
             "password" => $hashed_password,
+            "file_path" => '猫.jpg',
             "created_at" => $now,
             "updated_at" => $now,
         ];

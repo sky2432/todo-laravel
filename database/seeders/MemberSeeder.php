@@ -21,15 +21,17 @@ class MemberSeeder extends Seeder
             'name' => 'そら',
             'email' => 'test1@test.com',
             'password' => Hash::make('password'),
-            'file_path' => null,
+            'file_path' => '猫.jpg',
             'created_at' => now(),
+            'updated_at'=> now(),
             ],
             [
             'name' => 'すい',
             'email' => 'test2@test.com',
             'password' => Hash::make('password'),
-            'file_path' => null,
+            'file_path' => '猫.jpg',
             'created_at' => now(),
+            'updated_at'=> now(),
             ]
         ]);
     }

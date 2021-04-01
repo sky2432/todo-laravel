@@ -15,7 +15,7 @@ class AddStatusToTodoListsTable extends Migration
     {
         Schema::table('todo_lists', function (Blueprint $table) {
             //
-            $table->boolean('status')->after('todo_list');
+            $table->boolean('status')->after('deadline');
         });
     }
 

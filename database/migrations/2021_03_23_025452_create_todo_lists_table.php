@@ -18,6 +18,7 @@ class CreateTodoListsTable extends Migration
             $table->unsignedBigInteger('member_id');
             $table->foreign('member_id')->references('id')->on('members');
             $table->text('todo_list');
+            $table->date('deadline')->nullable();
             $table->timestamps();
         });
     }
