@@ -11,7 +11,7 @@ class DoneTodoController extends Controller
     {
         $items = TodoList::where('user_id', $id)
         ->where('status', false)
-        ->orderBy('id', 'desc')
+        ->latest('id')
         ->get();
         
         return response()->json([
@@ -33,7 +33,7 @@ class DoneTodoController extends Controller
 
     public function destroy($id)
     {
-        TodoList::find($id)->delete();
+        TodoList::destroy($id);
         
         return response()->json([
             'message' => 'Delete successfully',

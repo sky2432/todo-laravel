@@ -3,31 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
 
 class FormValidateController extends Controller
 {
-    //
-    public function post(Request $request) {
-        $errors = [];
+    public function __invoke(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|unique:App\Models\User,name|min:2',
+            'email' => 'required|email:rfc,dns|unique:App\Models\User,email',
+            'password' => 'required|min:4',
+        ]);
 
-        $nameItem = User::where('name', $request->name)->first();
-
-        $emailItem = User::where('email', $request->email)->first();
-
-        if($nameItem) {
-            $errors['name'] = 'duplicate';
-        }
-        if($emailItem) {
-            $errors['email'] = 'duplicate';
-        }
-        if(strlen($request->password) < 4) {
-            $errors['password'] = 'length';
-        }
-        
         return response()->json([
-            'message' => 'OK',
-            'data' => $errors,
+            'message' => 'Validate OK',
         ]);
     }
 }

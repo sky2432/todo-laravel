@@ -3,31 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 
 class LoginValidateController extends Controller
 {
-    //
-    public function post(Request $request)
+    public function __invoke(Request $request)
     {
-        $errors = [];
-
-        $item = User::where('email', $request->email)->first();
-
-        if ($item) {
-            if (Hash::check($request->password, $item->password)) {
-            } else {
-                $errors['password'] = 'password';
-            }
-        } else {
-            $errors['email'] = 'email';
-        }
+        $request->validate([
+            'email' => 'required|email:rfc,dns|exists:users',
+            'password' => 'required|min:4',
+        ]);
         
         return response()->json([
-                'message' => 'OK',
-                'data' => $errors,
+                'message' => 'Validate OK',
             ], 200);
     }
 }

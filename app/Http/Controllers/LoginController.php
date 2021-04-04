@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class LoginController extends Controller
 {
-    public function post(Request $request)
+    public function __invoke(Request $request)
     {
         $item = User::where('email', $request->email)->first();
         if (Hash::check($request->password, $item->password)) {
@@ -22,4 +21,3 @@ class LoginController extends Controller
         }
     }
 }
-

@@ -22,7 +22,7 @@ class TestCommand extends Command
      *
      * @var string
      */
-    protected $description = 'デバック様のコマンドです';
+    protected $description = 'デバック用のコマンドです';
 
     /**
      * Create a new command instance.
@@ -42,7 +42,6 @@ class TestCommand extends Command
     public function handle()
     {
         $this->info('start');
-
 
 
         $this->info('complete');

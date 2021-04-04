@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Storage;
+use App\Services\DeleteFileService;
+
 
 class FileController extends Controller
 {
-    //
     public function show($id)
     {
         $item = User::find($id);
@@ -20,14 +20,9 @@ class FileController extends Controller
 
     public function update($id)
     {
-        $record = User::find($id);
-        $fileName = $record->file_path;
-        if ($fileName && $fileName !== config('data.defaultImage')) {
-            Storage::delete('public/image/' .$fileName);
-        }
+        DeleteFileService::deleteFile($id);
 
-        $now = Carbon::now();
-        $time = $now->format('Y-m-d_H-i-s');
+        $time = Carbon::now()->format('Y-m-d_H-i-s_');
         $file_name = $time . request()->file->getClientOriginalName();
         
         request()->file->storeAs('public/image/', $file_name);

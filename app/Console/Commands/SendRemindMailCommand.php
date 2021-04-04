@@ -41,7 +41,6 @@ class SendRemindMailCommand extends Command
     public function handle()
     {
         $this->info('start');
-        // Carbon::setTestNow(Carbon::parse('2021-04-01'));
 
         //完了しておらず、期日が設定されているリストを全件取得
         $items = TodoList::where('status', 1)->whereNotNull('deadline')->get();
@@ -55,30 +54,18 @@ class SendRemindMailCommand extends Command
             if ($today >= $todoDeadline) {
                 $passedItems[] = $item;
             };
-
-            // echo $today;
-            // echo "\n";
-
-            // echo $todoDeadline;
-            // echo "\n";
-            // echo "\n";
-            
-
-            // echo $deadline;
         };
-        // foreach($passedItems as $passedItem) {
-        //     echo $passedItem;
-        //     echo "\n";
-        // };
         $this->info('sending email now');
+
         //メール送信
         foreach ($passedItems as $passedItem) {
             $user = $passedItem->user;
-            Mail::send(['text' => 'emails.remind_mail'], ['item' => $passedItem, 'user' => $user], function ($message) use ($user) {
+            Mail::send(['text' => 'emails.remind-mail'], ['item' => $passedItem, 'user' => $user], function ($message) use ($user) {
                 $message->to($user->email)
                 ->from('todolist@test.com', 'Todoリスト')->subject('リマインドメール');
             });
         }
+        
         $this->info('complete');
     }
 }
