@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\TodoList;
 
-class DoneTodoController extends Controller
+class TodoDoneController extends Controller
 {
     //
     public function show($id)
     {
         $items = TodoList::where('user_id', $id)
         ->where('status', false)
-        ->latest('id')
+        ->latest('updated_at')
         ->get();
         
         return response()->json([

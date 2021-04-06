@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\MailSendController;
 use Illuminate\Support\Facades\Route;
 
 /*

@@ -26,7 +26,7 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             $request->validate([
-            'name' => ['required','min:2',Rule::unique('users')->ignore($id)],
+            'name' => ['required','min:2'],
             'email' => ['required','email:rfc,dns',Rule::unique('users')->ignore($id)]
             ])
         ];
