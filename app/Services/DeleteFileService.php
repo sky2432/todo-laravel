@@ -11,7 +11,7 @@ class DeleteFileService
     {
         $record = User::find($id);
         $fileName = $record->file_path;
-        if ($fileName && $fileName !== config('data.defaultImage')) {
+        if ($fileName && $fileName !== config('data.DEFAULT_IMAGE')) {
             Storage::delete('public/image/' .$fileName);
         }
     }

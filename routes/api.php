@@ -8,14 +8,15 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\SendMailController;
-use App\Http\Controllers\ValidateRegisterController;
-use App\Http\Controllers\ValidateLoginController;
+// use App\Http\Controllers\PasswordResetLinkController;
 
 //ユーザー
 Route::apiResource('/users', UserController::class)->only(['store','update', 'destroy']);
+Route::post('/userRegisterConfirm', [UserController::class, 'confirm']);
 
 //Todo
 Route::apiResource('/todoLists', TodoController::class)->except('index');
+Route::get('/todoToday/{id}', [TodoController::class, 'showToday']);
 Route::apiResource('/todoListsDone', TodoDoneController::class)->only(['show', 'update', 'destroy']);
 
 //ファイル
@@ -24,11 +25,10 @@ Route::apiResource('/files', FileController::class)->only(['show', 'update']);
 //メール
 Route::post('/sendRegisterMail', [SendMailController::class, 'registerMail']);
 Route::post('/sendLoginMail', [SendMailController::class, 'loginMail']);
+// Route::post('/forgot-password', [PasswordResetLinkController::class, 'store']);
+
 
 //ログイン・ログアウト
-Route::post('/login', LoginController::class);
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/loginConfirm', [LoginController::class, 'confirm']);
 Route::post('/logout', LogoutController::class);
-
-//バリデーション
-Route::post('/validateRegister', ValidateRegisterController::class);
-Route::post('/validateLogin', ValidateLoginController::class);

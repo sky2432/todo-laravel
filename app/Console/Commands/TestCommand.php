@@ -3,9 +3,11 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Carbon\Carbon;
 use App\Models\User;
-// use Illuminate\Support\Facades\Config;
+use App\Notifications\SmsNotification;
+use App\Notifications\LoginNotification;
+
+
 
 
 class TestCommand extends Command
@@ -43,6 +45,9 @@ class TestCommand extends Command
     {
         $this->info('start');
 
+        $user = User::find(1);
+        return (new LoginNotification)->toMail($user);
+        // $user->notify(new SmsNotification);
 
         $this->info('complete');
     }

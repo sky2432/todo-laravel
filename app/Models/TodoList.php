@@ -14,6 +14,8 @@ class TodoList extends Model
             'todo_list',
             'deadline',
             'status',
+            'remind_day',
+            'remind_time',
     ];
 
 

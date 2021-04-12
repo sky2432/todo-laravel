@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Services\SendMailService;
+use App\Notifications\RegisterNotification;
+use App\Notifications\LoginNotification;
 
 class SendMailController extends Controller
 {
@@ -12,13 +14,17 @@ class SendMailController extends Controller
     {
         $item = User::where('email', $request->email)->first();
 
-        SendMailService::sendMail($item, config('data.register_mail_view'), config('data.register_mail_subject'));
+        $item->notify(new RegisterNotification);
+
+        // SendMailService::sendMail($item, config('data.REGISTER_MAIL_VIEW'), config('data.REGISTER_MAIL_SUBJECT'));
     }
 
     public function loginMail(Request $request)
     {
         $item = User::where('email', $request->email)->first();
+        
+        $item->notify(new LoginNotification);
 
-        SendMailService::sendMail($item, config('data.login_mail_view'), config('data.login_mail_subject'));
+        // SendMailService::sendMail($item, config('data.LOGIN_MAIL_VIEW'), config('data.LOGIN_MAIL_SUBJECT'));
     }
 }

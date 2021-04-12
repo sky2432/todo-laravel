@@ -8,7 +8,7 @@ use App\Models\User;
 
 class LoginController extends Controller
 {
-    public function __invoke(Request $request)
+    public function login(Request $request)
     {
         $item = User::where('email', $request->email)->first();
         if (Hash::check($request->password, $item->password)) {
@@ -20,4 +20,18 @@ class LoginController extends Controller
             return response()->json(['auth' => false], 200);
         }
     }
+
+    public function confirm(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email:rfc,dns|exists:users',
+            'password' => 'required|min:4',
+        ]);
+        
+        return response()->json([
+                'message' => 'Validate OK',
+            ], 200);
+    }
+
+
 }

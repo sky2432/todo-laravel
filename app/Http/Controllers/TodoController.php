@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TodoList;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class TodoController extends Controller
 {
@@ -61,5 +62,27 @@ class TodoController extends Controller
                 'message' => 'Not found',
             ], 404);
         }
+    }
+
+    public function showToday($id)
+    {
+        $items = TodoList::where('user_id', $id)
+        ->where('status', true)
+        ->whereNotNull('deadline')
+        ->latest('id')
+        ->get();
+
+        $today = Carbon::now()->format('Y-m-d 00:00:00');
+        foreach ($items as $item) {
+            $deadline = new Carbon($item->deadline);
+            if($deadline->eq($today)) {
+              $todayItems[] = $item;
+            }
+        }
+
+        return response()->json([
+                'message' => 'OK',
+                'data' => $todayItems,
+            ], 200);
     }
 }

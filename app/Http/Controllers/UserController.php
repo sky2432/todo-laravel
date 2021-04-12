@@ -11,6 +11,19 @@ use App\Services\DeleteFileService;
 
 class UserController extends Controller
 {
+    public function confirm(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|min:2',
+            'email' => 'required|email:rfc,dns|unique:App\Models\User,email',
+            'password' => 'required|min:4',
+        ]);
+
+        return response()->json([
+            'message' => 'Validate OK',
+        ]);
+    }
+    
     public function store(Request $request)
     {
         $item = new User();
@@ -33,7 +46,7 @@ class UserController extends Controller
             
         $item = User::find($id);
         $item ->fill($request->all())->save();
-
+        
         return response()->json([
                 'message' => 'Ok',
                 'data' => $item,

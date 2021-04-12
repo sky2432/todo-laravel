@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\TodoList;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
+use App\Notifications\RemindNotification;
 
 class SendRemindMailCommand extends Command
 {
@@ -14,7 +14,7 @@ class SendRemindMailCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:send_remind_mail';
+    protected $signature = 'command:remind_mail';
 
     /**
      * The console command description.
@@ -42,30 +42,41 @@ class SendRemindMailCommand extends Command
     {
         $this->info('start');
 
-        //完了しておらず、期日が設定されているリストを全件取得
-        $items = TodoList::where('status', 1)->whereNotNull('deadline')->get();
-        $passedItems = [];
-        //期日が過ぎているリストを取得
-        foreach ($items as $item) {
-            $now = new Carbon();
-            $today = Carbon::create($now->year, $now->month, $now->day);
-            $deadline = new Carbon($item->deadline);
-            $todoDeadline = $deadline->addDays(1);
-            if ($today >= $todoDeadline) {
-                $passedItems[] = $item;
-            };
-        };
-        $this->info('sending email now');
+        // Carbon::setTestNow('2021-04-09 09:00:00');
 
-        //メール送信
-        foreach ($passedItems as $passedItem) {
-            $user = $passedItem->user;
-            Mail::send(['text' => 'emails.remind-mail'], ['item' => $passedItem, 'user' => $user], function ($message) use ($user) {
-                $message->to($user->email)
-                ->from('todolist@test.com', 'Todoリスト')->subject('リマインドメール');
-            });
-        }
+        $now = Carbon::now()->format('Y-m-d H:i:00');
         
+        $items = TodoList::where('status', 1)->whereNotNull('remind_day')->get();
+        foreach ($items as $item) {
+            $remind = new Carbon($item->deadline . $item->remind_time);
+            if ($item->remind_day === 0) {
+                if ($remind->eq($now)) {
+                    $this->info('sending email now');
+
+                    $user = $item->user;
+                    $user->notify(new RemindNotification($item));
+                }
+            }
+            if ($item->remind_day === 1) {
+                $remind->subDay();
+                if ($remind->eq($now)) {
+                    $this->info('sending email now');
+
+                    $user = $item->user;
+                    $user->notify(new RemindNotification($item));
+                }
+            }
+            if ($item->remind_day === 2) {
+                $remind->subDays(2);
+                if ($remind->eq($now)) {
+                    $this->info('sending email now');
+
+                    $user = $item->user;
+                    $user->notify(new RemindNotification($item));
+                }
+            }
+        }
+
         $this->info('complete');
     }
 }

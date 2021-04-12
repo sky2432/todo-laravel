@@ -19,6 +19,8 @@ class CreateTodoListsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->text('todo_list');
             $table->date('deadline')->nullable();
+            $table->tinyInteger('remind_day')->nullable();
+            $table->time('remind_time')->nullable();
             $table->timestamps();
         });
     }
