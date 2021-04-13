@@ -23,15 +23,32 @@ class UserController extends Controller
             'message' => 'Validate OK',
         ]);
     }
+
+    public function index()
+    {
+        $item = User::where('role', 'user')->get();
+        
+        return response()->json([
+            'message' => 'ok',
+            'data' => $item
+        ], 200);
+    }
+
+    public function show($id)
+    {
+        $item = User::find($id);
+        
+        return response()->json([
+            'message' => 'ok',
+            'data' => $item
+        ], 200);
+    }
     
     public function store(Request $request)
     {
         $item = new User();
         $item->fill($request->all());
-
-        $hashed_password = Hash::make($request->password);
-
-        $item->password = $hashed_password;
+        $item->password = Hash::make($request->password);
         $item->save();
 
         return response()->json([

@@ -22,10 +22,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\TodoList');
     }
 
-    public function __construct()
-    {
-        $this->file_path = config('data.DEFAULT_IMAGE');
-    }
+    // public function __construct()
+    // {
+    //     $this->file_path = config('data.DEFAULT_IMAGE');
+    // }
 
     public function routeNotificationForMail($notification)
     {

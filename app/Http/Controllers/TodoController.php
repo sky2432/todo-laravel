@@ -10,8 +10,7 @@ class TodoController extends Controller
 {
     public function store(Request $request)
     {
-        $item = new TodoList;
-        $item->fill($request->all())->save();
+        $item = TodoList::create($request->all());
 
         return response()->json([
             'message' => 'Created successfully',
@@ -85,4 +84,18 @@ class TodoController extends Controller
                 'data' => $todayItems,
             ], 200);
     }
+
+    public function showUserTodo($id)
+    {
+        $items = TodoList::where('user_id', $id)
+        ->latest('id')
+        ->get();
+        
+        return response()->json([
+                'message' => 'OK',
+                'data' => $items
+            ], 200);
+    }
+
+
 }

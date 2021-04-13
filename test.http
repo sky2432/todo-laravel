@@ -1,20 +1,21 @@
-POST  http://127.0.0.1:8000/api/forgot-password HTTP/1.1
+POST  http://127.0.0.1:8000/api/post HTTP/1.1
 content-type: application/json
 
 {
-  "email": "test1@test.com",
+  "name": "そら",
 }
 
 ###
 
-POST  http://127.0.0.1:8000/api/login HTTP/1.1
+POST  http://127.0.0.1:8000/api/todoLists HTTP/1.1
 content-type: application/json
 
 {
-  "email": "test1@test.com",
-  "password": "password"
+  "user_id": 1,
+  "todo_list": "こんにちは",
+  "status": true,
 }
 
 ###
 
-GET  http://127.0.0.1:8000/api/files/1
+GET  http://127.0.0.1:8000/api/post

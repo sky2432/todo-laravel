@@ -9,15 +9,7 @@ class TodoList extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-            'user_id',
-            'todo_list',
-            'deadline',
-            'status',
-            'remind_day',
-            'remind_time',
-    ];
-
+    protected $guarded = [];
 
     public function user()
     {

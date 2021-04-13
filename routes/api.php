@@ -11,12 +11,13 @@ use App\Http\Controllers\SendMailController;
 // use App\Http\Controllers\PasswordResetLinkController;
 
 //ユーザー
-Route::apiResource('/users', UserController::class)->only(['store','update', 'destroy']);
+Route::apiResource('/users', UserController::class);
 Route::post('/userRegisterConfirm', [UserController::class, 'confirm']);
 
 //Todo
 Route::apiResource('/todoLists', TodoController::class)->except('index');
 Route::get('/todoToday/{id}', [TodoController::class, 'showToday']);
+Route::get('/userTodo/{id}', [TodoController::class, 'showUserTodo']);
 Route::apiResource('/todoListsDone', TodoDoneController::class)->only(['show', 'update', 'destroy']);
 
 //ファイル
@@ -32,3 +33,4 @@ Route::post('/sendLoginMail', [SendMailController::class, 'loginMail']);
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/loginConfirm', [LoginController::class, 'confirm']);
 Route::post('/logout', LogoutController::class);
+
