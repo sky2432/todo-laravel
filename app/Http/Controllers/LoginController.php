@@ -8,19 +8,6 @@ use App\Models\User;
 
 class LoginController extends Controller
 {
-    public function login(Request $request)
-    {
-        $item = User::where('email', $request->email)->first();
-        if (Hash::check($request->password, $item->password)) {
-            return response()->json([
-                'auth' => true,
-                'data' => $item,
-            ], 200);
-        } else {
-            return response()->json(['auth' => false], 200);
-        }
-    }
-
     public function confirm(Request $request)
     {
         $request->validate([
@@ -33,5 +20,16 @@ class LoginController extends Controller
             ], 200);
     }
 
-
+    public function login(Request $request)
+    {
+        $item = User::where('email', $request->email)->first();
+        if (Hash::check($request->password, $item->password)) {
+            return response()->json([
+                'auth' => true,
+                'data' => $item,
+            ], 200);
+        } else {
+            return response()->json(['auth' => false], 200);
+        }
+    }
 }

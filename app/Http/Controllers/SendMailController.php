@@ -15,8 +15,6 @@ class SendMailController extends Controller
         $item = User::where('email', $request->email)->first();
 
         $item->notify(new RegisterNotification);
-
-        // SendMailService::sendMail($item, config('data.REGISTER_MAIL_VIEW'), config('data.REGISTER_MAIL_SUBJECT'));
     }
 
     public function loginMail(Request $request)
@@ -24,7 +22,5 @@ class SendMailController extends Controller
         $item = User::where('email', $request->email)->first();
         
         $item->notify(new LoginNotification);
-
-        // SendMailService::sendMail($item, config('data.LOGIN_MAIL_VIEW'), config('data.LOGIN_MAIL_SUBJECT'));
     }
 }

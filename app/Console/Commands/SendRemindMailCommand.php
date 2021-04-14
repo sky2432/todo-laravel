@@ -42,7 +42,7 @@ class SendRemindMailCommand extends Command
     {
         $this->info('start');
 
-        // Carbon::setTestNow('2021-04-09 09:00:00');
+        Carbon::setTestNow('2021-04-17 12:00:00');
 
         $now = Carbon::now()->format('Y-m-d H:i:00');
         

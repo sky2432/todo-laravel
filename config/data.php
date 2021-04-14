@@ -4,6 +4,8 @@ return [
   'DEFAULT_IMAGE1' => 'defaultImage1.jpg',
   'DEFAULT_IMAGE2' => 'defaultImage2.jpg',
   'DEFAULT_IMAGE3' => 'defaultImage3.jpg',
+  'DEFAULT_IMAGE4' => 'defaultImage4.jpg',
+  'DEFAULT_IMAGE5' => 'defaultImage5.jpg',
   'REGISTER_MAIL_SUBJECT' => '会員登録完了通知',
   'LOGIN_MAIL_SUBJECT' => 'ログイン通知',
   'REMIND_MAIL_SUBJECT' => 'リマインドメール',

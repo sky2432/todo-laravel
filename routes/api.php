@@ -8,7 +8,6 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\SendMailController;
-// use App\Http\Controllers\PasswordResetLinkController;
 
 //ユーザー
 Route::apiResource('/users', UserController::class);
@@ -26,7 +25,6 @@ Route::apiResource('/files', FileController::class)->only(['show', 'update']);
 //メール
 Route::post('/sendRegisterMail', [SendMailController::class, 'registerMail']);
 Route::post('/sendLoginMail', [SendMailController::class, 'loginMail']);
-// Route::post('/forgot-password', [PasswordResetLinkController::class, 'store']);
 
 
 //ログイン・ログアウト

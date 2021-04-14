@@ -72,6 +72,7 @@ class TodoController extends Controller
         ->get();
 
         $today = Carbon::now()->format('Y-m-d 00:00:00');
+        $todayItems = [];
         foreach ($items as $item) {
             $deadline = new Carbon($item->deadline);
             if($deadline->eq($today)) {
