@@ -6,9 +6,10 @@ use Illuminate\Console\Command;
 use App\Models\User;
 use App\Notifications\SmsNotification;
 use App\Notifications\LoginNotification;
-
-
-
+use Carbon\Carbon;
+use DateInterval;
+use DatePeriod;
+use DateTime;
 
 class TestCommand extends Command
 {
@@ -45,9 +46,20 @@ class TestCommand extends Command
     {
         $this->info('start');
 
-        $user = User::find(1);
-        return (new LoginNotification)->toMail($user);
-        // $user->notify(new SmsNotification);
+        $today = Carbon::today();
+        $past = $today->copy()->subMonths(7);
+        
+        $begin = new DateTime($past);
+        $end = new DateTime($today);
+
+        echo $today;
+        echo "\n";
+        echo $past;
+        echo "\n";
+        // echo $begin;
+        // echo "\n";
+        // echo $end;
+
 
         $this->info('complete');
     }

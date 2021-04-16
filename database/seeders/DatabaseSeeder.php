@@ -15,9 +15,11 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         $this->call([
+            UserFactorySeeder::class,
+            TodoFactorySeeder::class,
             // UserSeeder::class,
-            UserSeeder2::class,
-            TodoListSeeder::class,
+            // UserSeeder2::class,
+            // TodoListSeeder::class,
         ]);
     }
 }

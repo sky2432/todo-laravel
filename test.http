@@ -1,4 +1,4 @@
-POST  http://127.0.0.1:8000/api/post HTTP/1.1
+POST  http://127.0.0.1:8000/api/statistics HTTP/1.1
 content-type: application/json
 
 {
@@ -18,4 +18,6 @@ content-type: application/json
 
 ###
 
-GET  http://127.0.0.1:8000/api/post
+POST  http://127.0.0.1:8000/api/statistics/month HTTP/1.1
+content-type: application/json
+

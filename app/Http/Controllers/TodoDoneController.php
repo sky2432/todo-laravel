@@ -11,7 +11,7 @@ class TodoDoneController extends Controller
     {
         $items = TodoList::where('user_id', $id)
         ->where('status', false)
-        ->latest('updated_at')
+        ->latest('done_at')
         ->get();
         
         return response()->json([
@@ -23,6 +23,7 @@ class TodoDoneController extends Controller
     public function update($id)
     {
         $item = TodoList::find($id);
+        $item->done_at = null;
         $item->status = true;
         $item->save();
 

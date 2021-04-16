@@ -49,6 +49,7 @@ class TodoController extends Controller
     public function destroy($id)
     {
         $item = TodoList::find($id);
+        $item->done_at = now();
         $item->status = false;
         $item->save();
 

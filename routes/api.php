@@ -8,6 +8,7 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\SendMailController;
+use App\Http\Controllers\StatisticsController;
 
 //ユーザー
 Route::apiResource('/users', UserController::class);
@@ -31,4 +32,8 @@ Route::post('/sendLoginMail', [SendMailController::class, 'loginMail']);
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/loginConfirm', [LoginController::class, 'confirm']);
 Route::post('/logout', LogoutController::class);
+
+//
+Route::post('/statistics/day', [StatisticsController::class, 'day']);
+Route::post('/statistics/month', [StatisticsController::class, 'month']);
 
