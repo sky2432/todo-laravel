@@ -49,7 +49,7 @@ class TodoController extends Controller
     public function destroy($id)
     {
         $item = TodoList::find($id);
-        $item->done_at = now();
+        $item->done_at = Carbon::today();
         $item->status = false;
         $item->save();
 
@@ -64,7 +64,7 @@ class TodoController extends Controller
         }
     }
 
-    public function showToday($id)
+    public function today($id)
     {
         $items = TodoList::where('user_id', $id)
         ->where('status', true)
@@ -87,7 +87,7 @@ class TodoController extends Controller
             ], 200);
     }
 
-    public function showUserTodo($id)
+    public function userAllTodo($id)
     {
         $items = TodoList::where('user_id', $id)
         ->latest('id')

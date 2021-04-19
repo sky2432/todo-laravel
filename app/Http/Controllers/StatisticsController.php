@@ -2,84 +2,135 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TodoList;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use DateInterval;
-use DatePeriod;
+use App\Services\StatisticsService;
 
 class StatisticsController extends Controller
 {
     public function day(Request $request)
     {
-        $now = Carbon::today();
-        $end = $now->copy()->modify('+1 day');
-        $begin = $now->copy()->subdays(6);
+        $id = $request->id;
+        $dbEnd = Carbon::today();
+        $rangeEnd = $dbEnd->copy()->addDay();
+        $begin = $dbEnd->copy()->subdays(6);
 
-        $period = new DatePeriod($begin, new DateInterval('P1D'), $end);
-        $dbData = [];
- 
-        foreach ($period as $date) {
-            $range[$date->format("Y-m-d")] = 0;
-        }
-
-        $data = TodoList::where('user_id', $request->id)
-        ->whereBetween('done_at', [$begin, $end])
-        ->select(DB::raw('DATE_FORMAT(done_at, "%Y-%m-%d") as date'), DB::raw('count(done_at) as count'))
-        ->groupBy('date')
-        ->get();
-
-        foreach ($data as $val) {
-            $dbData[$val->date] = $val->count;
-        }
-
-        $data = array_replace($range, $dbData);
+        $data = StatisticsService::day($id, $begin, $rangeEnd, $dbEnd);
 
         return response()->json([
             'data' => $data,
         ]);
-       
+    }
+
+    public function backDay(Request $request)
+    {
+        $id = $request->id;
+        $rangeEnd = new Carbon($request->data);
+        $dbEnd = $rangeEnd->copy()->subDay();
+        $begin = $dbEnd->copy()->subdays(6);
+
+        $data = StatisticsService::day($id, $begin, $rangeEnd, $dbEnd);
+
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
+
+    public function forwardDay(Request $request)
+    {
+        $id = $request->id;
+        $specificDay = new Carbon($request->data);
+        $begin = $specificDay->copy()->addDay();
+        $dbEnd = $begin->copy()->adddays(6);
+        $rangeEnd = $dbEnd->copy()->addDay();
+
+        $data = StatisticsService::day($id, $begin, $rangeEnd, $dbEnd);
+
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
+
+    public function week(Request $request)
+    {
+        $id = $request->id;
+        $dbEnd = Carbon::today();
+        $rangeEnd = $dbEnd->copy()->addDay();
+        $begin = $dbEnd->copy()->subweeks(6)->startOfWeek();
+
+        $data = StatisticsService::week($id, $begin, $rangeEnd, $dbEnd);
+
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
+
+    public function backWeek(Request $request)
+    {
+        $id = $request->id;
+        $rangeEnd = new Carbon($request->data);
+        $dbEnd = $rangeEnd->copy()->subDay();
+        $begin = $dbEnd->copy()->subWeeks(6)->startOfWeek();
+
+        $data = StatisticsService::week($id, $begin, $rangeEnd, $dbEnd);
+
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
+
+    public function forwardWeek(Request $request)
+    {
+        $id = $request->id;
+        $specificDay = new Carbon($request->data);
+        $begin = $specificDay->copy()->addWeek();
+        $rangeEnd = $begin->copy()->addWeeks(7);
+        $dbEnd = $rangeEnd->copy()->subDay();
+
+        $data = StatisticsService::week($id, $begin, $rangeEnd, $dbEnd);
+
+        return response()->json([
+            'data' => $data,
+        ]);
     }
 
     public function month(Request $request)
     {
-        $now = Carbon::now();
-        // $now = Carbon::today();
-        // $end = $now->copy()->modify('+1 day');
-        $begin = $now->copy()->subMonths(6)->day(1);
-        // $begin->day(1);
-        // $today = Carbon::today();
+        $id = $request->id;
+        $dbEnd = Carbon::today();
+        $rangeEnd = $dbEnd->copy()->addDay();
+        $begin = $dbEnd->copy()->subMonths(6)->day(1);
 
-        $period = new DatePeriod($begin, new DateInterval('P1M'), $now);
-        $dbData = [];
- 
-        foreach ($period as $date) {
-            $range[$date->format("Y-m")] = 0;
-        }
+        $data = StatisticsService::month($id, $begin, $rangeEnd, $dbEnd);
 
-        // $data = TodoList::whereBetween('done_at', [$begin, $now])
-        // ->select(DB::raw('DATE_FORMAT(done_at, "%Y-%m") as date'), DB::raw('count(done_at) as count'))
-        // ->groupBy('date')
-        // ->get();
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
 
-        $count = TodoList::where('user_id', 2)
-        ->whereYear('done_at', 2020)
-        ->whereMonth('done_at', 10)
-        ->select(DB::raw('count(done_at) as count'))
-        ->get();
+    public function backMonth(Request $request)
+    {
+        $id = $request->id;
+        $rangeEnd = new Carbon($request->data);//例: 2020-10
+        $dbEnd = $rangeEnd->copy()->subDay();//例: 2020-9-30
+        $begin = $rangeEnd->copy()->subMonths(7);//例: 2020-3
 
-        $data = TodoList::where('user_id', 2)
-        ->whereBetween('done_at', [$begin, $now])
-        ->select(DB::raw('DATE_FORMAT(done_at, "%Y-%m") as date'), DB::raw('count(done_at) as count'))
-        ->groupBy('date')
-        ->get();
+        $data = StatisticsService::month($id, $begin, $rangeEnd, $dbEnd);
 
-        foreach ($data as $val) {
-            $dbData[$val->date] = $val->count;
-        }
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
 
-        $data = array_replace($range, $dbData);
+    public function forwardMonth(Request $request)
+    {
+        $id = $request->id;
+        $specificDay = new Carbon($request->data);//例: 2020-9
+        $begin = $specificDay->copy()->addMonth();//例: 2020-10
+        $rangeEnd = $begin->copy()->addMonths(7);//例: 2021-5
+        $dbEnd = $rangeEnd->copy()->subDay();//例: 2021-4-30
+
+        $data = StatisticsService::month($id, $begin, $rangeEnd, $dbEnd);
 
         return response()->json([
             'data' => $data,

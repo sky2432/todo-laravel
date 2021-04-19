@@ -46,20 +46,19 @@ class TestCommand extends Command
     {
         $this->info('start');
 
+        $noww = now();
+        $now = Carbon::now();
         $today = Carbon::today();
-        $past = $today->copy()->subMonths(7);
-        
-        $begin = new DateTime($past);
-        $end = new DateTime($today);
+        $past = $today->copy()->subMonths(6);
 
+        echo $noww;
+        echo "\n";
+        echo $now;
+        echo "\n";
         echo $today;
         echo "\n";
         echo $past;
         echo "\n";
-        // echo $begin;
-        // echo "\n";
-        // echo $end;
-
 
         $this->info('complete');
     }

@@ -12,28 +12,41 @@ use App\Http\Controllers\StatisticsController;
 
 //ユーザー
 Route::apiResource('/users', UserController::class);
-Route::post('/userRegisterConfirm', [UserController::class, 'confirm']);
+Route::post('/userRegister/confirm', [UserController::class, 'confirm']);
 
 //Todo
 Route::apiResource('/todoLists', TodoController::class)->except('index');
-Route::get('/todoToday/{id}', [TodoController::class, 'showToday']);
-Route::get('/userTodo/{id}', [TodoController::class, 'showUserTodo']);
-Route::apiResource('/todoListsDone', TodoDoneController::class)->only(['show', 'update', 'destroy']);
+Route::get('/todoLists/today/{id}', [TodoController::class, 'today']);
+Route::get('/todoLists/user/{id}', [TodoController::class, 'userAllTodo']);
+Route::apiResource('/todoLists/done', TodoDoneController::class)->only(['show', 'update', 'destroy']);
 
 //ファイル
 Route::apiResource('/files', FileController::class)->only(['show', 'update']);
 
 //メール
-Route::post('/sendRegisterMail', [SendMailController::class, 'registerMail']);
-Route::post('/sendLoginMail', [SendMailController::class, 'loginMail']);
+Route::post('/sendMail/register', [SendMailController::class, 'register']);
+Route::post('/sendMail/login', [SendMailController::class, 'login']);
 
 
 //ログイン・ログアウト
 Route::post('/login', [LoginController::class, 'login']);
-Route::post('/loginConfirm', [LoginController::class, 'confirm']);
+Route::post('/login/confirm', [LoginController::class, 'confirm']);
 Route::post('/logout', LogoutController::class);
 
-//
+//統計
+//日
 Route::post('/statistics/day', [StatisticsController::class, 'day']);
+Route::post('/statistics/day/back', [StatisticsController::class, 'backDay']);
+Route::post('/statistics/day/forward', [StatisticsController::class, 'forwardDay']);
+//週
+Route::post('/statistics/week', [StatisticsController::class, 'week']);
+Route::post('/statistics/week/back', [StatisticsController::class, 'backWeek']);
+Route::post('/statistics/week/forward', [StatisticsController::class, 'forwardWeek']);
+//月
 Route::post('/statistics/month', [StatisticsController::class, 'month']);
+Route::post('/statistics/month/back', [StatisticsController::class, 'backMonth']);
+Route::post('/statistics/month/forward', [StatisticsController::class, 'forwardMonth']);
+
+
+
 

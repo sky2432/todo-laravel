@@ -18,6 +18,14 @@ content-type: application/json
 
 ###
 
-POST  http://127.0.0.1:8000/api/statistics/month HTTP/1.1
+POST  http://127.0.0.1:8000/api/statistics/day/back HTTP/1.1
+content-type: application/json
+
+{
+  "data": 2021-04-11
+}
+
+###
+POST  http://127.0.0.1:8000/api/statistics/week HTTP/1.1
 content-type: application/json
 

@@ -18,7 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/notify', [TestController::class, 'index']);
+Route::get('/test', [TestController::class, 'index']);
 
 
 

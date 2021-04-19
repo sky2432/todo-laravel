@@ -6,7 +6,6 @@ use App\Models\TodoList;
 
 class TodoDoneController extends Controller
 {
-    //
     public function show($id)
     {
         $items = TodoList::where('user_id', $id)

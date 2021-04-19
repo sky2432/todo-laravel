@@ -32,13 +32,13 @@ class TodoListFactory extends Factory
             $remind_time = $this->faker->time('H:00:00');
         }
 
-        $status = $this->faker->boolean;
+        $status = $this->faker->randomElement([true, false, false, false, false, false]);
 
         if ($status === true) {
             $done_at = null;
         }
         if ($status === false) {
-            $done_at = $this->faker->dateTimeBetween('-1year', 'now')->format('Y-m-d');
+            $done_at = $this->faker->dateTimeBetween('-2year', 'now')->format('Y-m-d');
         }
 
         $todoLists = [
