@@ -63,7 +63,7 @@ class StatisticsService
             }
         }
 
-        $data = TodoList::where('user_id', 2)
+        $data = TodoList::where('user_id', $id)
         ->whereBetween('done_at', [$begin, $dbEnd])
         ->select(DB::raw('YEARWEEK(done_at, 3) as week'), DB::raw('count(done_at) as count'))
         ->groupBy('week')
@@ -74,8 +74,6 @@ class StatisticsService
         foreach ($data as $val) {
             $dbData[$val->week] = $val->count;
         }
-
-        // dd($range);
 
         $data = array_replace($range, $dbData);
 

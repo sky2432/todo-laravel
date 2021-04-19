@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TodoList;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Services\StatisticsService;
+use Illuminate\Support\Facades\DB;
+
 
 class StatisticsController extends Controller
 {
@@ -136,4 +140,66 @@ class StatisticsController extends Controller
             'data' => $data,
         ]);
     }
+
+    public function countAll(Request $request)
+    {
+        $id = $request->id;
+        $data = TodoList::where('user_id', $id)
+        ->whereNotNull('done_at')
+        ->count();
+
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
+
+    public function countDay(Request $request)
+    {
+        $now = Carbon::today();
+        
+        $id = $request->id;
+        $data = TodoList::where('user_id', $id)
+        ->whereDate('done_at', $now)
+        ->count();
+
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
+
+    public function countMonth(Request $request)
+    {
+        $now = Carbon::today();
+        
+        $id = $request->id;
+        $data = TodoList::where('user_id', $id)
+        ->whereYear('done_at', $now->year)
+        ->whereMonth('done_at', $now->month)
+        ->count();
+
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
+
+    public function avarageDay(Request $request)
+    {
+        $begin = User::find(2)->value('created_at');
+        $now = Carbon::today();
+
+        $allDay = $now->copy()->diffInDays($begin) + 1;
+        
+        $id = $request->id;
+        $data = TodoList::where('user_id', $id)
+        ->whereNotNull('done_at')
+        ->count();
+
+        $avg = round($data / $allDay);
+
+
+        return response()->json([
+            'data' => $avg,
+        ]);
+    }
+    
 }

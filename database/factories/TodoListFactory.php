@@ -22,7 +22,7 @@ class TodoListFactory extends Factory
      */
     public function definition()
     {
-        $deadline = $this->faker->randomElement([null, now()->format('Y-m-d'), $this->faker->dateTimeBetween('-1week', '1month')->format('Y-m-d')]);
+        $deadline = $this->faker->randomElement([null, now()->format('Y-m-d'), $this->faker->dateTimeBetween('-1week', '1month')->format('Y-m-d')], );
 
         if ($deadline === null) {
             $remind_day = null;
@@ -32,7 +32,7 @@ class TodoListFactory extends Factory
             $remind_time = $this->faker->time('H:00:00');
         }
 
-        $status = $this->faker->randomElement([true, false, false, false, false, false]);
+        $status = $this->faker->randomElement([true, false, false, false, false, false, false, false, false, false]);
 
         if ($status === true) {
             $done_at = null;

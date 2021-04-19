@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -17,6 +18,9 @@ class UserFactorySeeder extends Seeder
      */
     public function run()
     {
+        $now = Carbon::today();
+        $now->subYears(2);
+
         DB::table('users')->insert([
             [
             'name' => 'admin',
@@ -24,8 +28,8 @@ class UserFactorySeeder extends Seeder
             'password' => Hash::make('1234'),
             'file_path' => config('data.DEFAULT_IMAGE1'),
             'role' => 'admin',
-            'created_at' => now(),
-            'updated_at'=> now(),
+            'created_at' => $now,
+            'updated_at'=> $now,
             ],
             [
             'name' => 'そら',
@@ -33,8 +37,17 @@ class UserFactorySeeder extends Seeder
             'password' => Hash::make('1234'),
             'file_path' => config('data.DEFAULT_IMAGE2'),
             'role' => 'user',
-            'created_at' => now(),
-            'updated_at'=> now(),
+            'created_at' => $now,
+            'updated_at'=> $now,
+            ],
+            [
+            'name' => 'すい',
+            'email' => 'test2@test.com',
+            'password' => Hash::make('1234'),
+            'file_path' => config('data.DEFAULT_IMAGE3'),
+            'role' => 'user',
+            'created_at' => $now,
+            'updated_at'=> $now,
             ],
         ]);
         User::factory()->count(20)->create();

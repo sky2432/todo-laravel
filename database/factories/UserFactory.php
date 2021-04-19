@@ -3,9 +3,9 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
@@ -23,12 +23,17 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $now = Carbon::today();
+        $now->subYears(2);
+
         return [
             'name' => $this->faker->firstName,
             'email' => $this->faker->unique()->safeEmail,
             'password' => Hash::make('1234'),
             'file_path' => "defaultImage" . rand(1, 12) . ".jpg",
             'role' => "user",
+            'created_at' => $now,
+            'updated_at' => $now,
         ];
     }
 

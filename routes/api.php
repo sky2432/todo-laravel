@@ -47,6 +47,12 @@ Route::post('/statistics/month', [StatisticsController::class, 'month']);
 Route::post('/statistics/month/back', [StatisticsController::class, 'backMonth']);
 Route::post('/statistics/month/forward', [StatisticsController::class, 'forwardMonth']);
 
+Route::post('/statistics/count/all', [StatisticsController::class, 'countAll']);
+Route::post('/statistics/count/day', [StatisticsController::class, 'countDay']);
+Route::post('/statistics/count/month', [StatisticsController::class, 'countMonth']);
+
+Route::post('/statistics/avarage/day', [StatisticsController::class, 'avarageDay']);
+
 
 
 
