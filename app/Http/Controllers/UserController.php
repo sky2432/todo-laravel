@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\TodoList;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserUpdateRequest;
+use App\Http\Requests\UpdatePasswordRequest;
 use App\Services\DeleteFileService;
 
 class UserController extends Controller
@@ -81,5 +82,19 @@ class UserController extends Controller
         return response()->json([
             'message' => 'Account Deleted',
         ]);
+    }
+    
+    public function updatePassword(Request $request)
+    {
+        $item = User::find($request->id);
+        UpdatePasswordRequest::rules($request, $item);
+
+        $item->password = Hash::make($request->new_password);
+        $item->save();
+        
+        return response()->json([
+                'message' => 'Ok',
+                'data' => $item,
+            ]);
     }
 }

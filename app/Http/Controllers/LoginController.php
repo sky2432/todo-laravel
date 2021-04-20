@@ -10,9 +10,19 @@ class LoginController extends Controller
 {
     public function confirm(Request $request)
     {
+        $item = User::where('email', $request->email)->first();
+        
+
         $request->validate([
-            'email' => 'required|email:rfc,dns|exists:users',
-            'password' => 'required|min:4',
+            'email' => ['required','email:rfc,dns','exists:users',
+        ],
+            'password' => ['required',
+                function ($attribute, $value, $fail) use ($item) {
+                    if ($item && !(Hash::check($value, $item->password))) {
+                        return $fail('パスワードが間違っています。');
+                    }
+                },
+            ]
         ]);
         
         return response()->json([

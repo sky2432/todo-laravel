@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Models\TodoList;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use DateInterval;
 use DatePeriod;
 
@@ -33,6 +33,7 @@ class StatisticsService
         $data = array_replace($range, $dbData);
 
         return $data;
+
     }
 
     public static function week($id, $begin, $rangeEnd, $dbEnd)

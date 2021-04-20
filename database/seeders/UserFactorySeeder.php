@@ -19,7 +19,7 @@ class UserFactorySeeder extends Seeder
     public function run()
     {
         $now = Carbon::today();
-        $now->subYears(2);
+        $now->subYear();
 
         DB::table('users')->insert([
             [
@@ -35,7 +35,8 @@ class UserFactorySeeder extends Seeder
             'name' => 'そら',
             'email' => 'test1@test.com',
             'password' => Hash::make('1234'),
-            'file_path' => config('data.DEFAULT_IMAGE2'),
+            // 'file_path' => config('data.DEFAULT_IMAGE2'),
+            'file_path' => 'defaultImage23.jpg',
             'role' => 'user',
             'created_at' => $now,
             'updated_at'=> $now,
@@ -44,7 +45,8 @@ class UserFactorySeeder extends Seeder
             'name' => 'すい',
             'email' => 'test2@test.com',
             'password' => Hash::make('1234'),
-            'file_path' => config('data.DEFAULT_IMAGE3'),
+            // 'file_path' => config('data.DEFAULT_IMAGE3'),
+            'file_path' => 'defaultImage24.jpg',
             'role' => 'user',
             'created_at' => $now,
             'updated_at'=> $now,
