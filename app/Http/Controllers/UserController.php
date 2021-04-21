@@ -89,7 +89,7 @@ class UserController extends Controller
         $item = User::find($request->id);
         UpdatePasswordRequest::rules($request, $item);
 
-        $item->password = Hash::make($request->new_password);
+        $item->password = Hash::make($request->newPassword);
         $item->save();
         
         return response()->json([

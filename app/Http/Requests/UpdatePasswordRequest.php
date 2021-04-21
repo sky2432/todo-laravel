@@ -26,15 +26,14 @@ class UpdatePasswordRequest extends FormRequest
     {
         return [
             $request->validate([
-                'current_password' => ['required',
+                'currentPassword' => ['required',
                 function ($attribute, $value, $fail) use ($item) {
                     if (!(Hash::check($value, $item->password))) {
                         return $fail('現在のパスワードを正しく入力してください');
                     }
                 },
             ],
-                'new_password' => 'required|min:4|confirmed',
-                'new_password_confirmation' => 'required',
+                'newPassword' => 'required|min:4',
             ])
         ];
     }

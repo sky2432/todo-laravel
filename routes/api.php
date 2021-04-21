@@ -50,6 +50,8 @@ Route::post('/statistics/month/forward', [StatisticsController::class, 'forwardM
 
 Route::post('/statistics/count', [StatisticsController::class, 'allCountData']);
 
+Route::post('/statistics/doneDay', [StatisticsController::class, 'doneDay']);
+
 
 
 

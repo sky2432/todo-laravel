@@ -153,4 +153,9 @@ class StatisticsController extends Controller
             'data' => $data,
         ]);
     }
+
+    public function doneDay(Request $request) {
+        $id = $request->id;
+
+    }
 }

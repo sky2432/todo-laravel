@@ -17,9 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserFactorySeeder::class,
             TodoFactorySeeder::class,
-            // UserSeeder::class,
-            // UserSeeder2::class,
-            // TodoListSeeder::class,
         ]);
     }
 }
