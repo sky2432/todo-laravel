@@ -33,7 +33,6 @@ class StatisticsService
         $data = array_replace($range, $dbData);
 
         return $data;
-
     }
 
     public static function week($id, $begin, $rangeEnd, $dbEnd)

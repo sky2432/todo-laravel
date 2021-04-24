@@ -6,7 +6,7 @@ use App\Models\TodoList;
 use App\Models\User;
 use Carbon\Carbon;
 
-class StatisticsCountService 
+class StatisticsCountService
 {
     public function countDay($id)
     {
@@ -42,7 +42,7 @@ class StatisticsCountService
 
     public function avarageDay($id)
     {
-        $begin = User::find($id)->value('created_at');
+        $begin = User::where('id', $id)->value('created_at');
         $now = Carbon::today();
 
         $allDay = $now->copy()->diffInDays($begin) + 1;
@@ -54,5 +54,37 @@ class StatisticsCountService
         $avg = round($data / $allDay);
 
         return $avg;
+    }
+
+    public static function countContinuous($data)
+    {
+        $count = 0;
+        $highestCount = 0;
+        $today = Carbon::today();
+        foreach ($data as $key => $value) {
+            $dbDate = new Carbon($key);
+            if ($dbDate->eq($today)) {
+                if ($value !== 0) {
+                    $count++;
+                    if ($highestCount < $count) {
+                        $highestCount = $count;
+                    }
+                }
+                if ($value === 0) {
+                    if ($highestCount < $count) {
+                        $highestCount = $count;
+                    }
+                }
+            } elseif ($value !== 0) {
+                $count++;
+            } elseif ($value === 0) {
+                if ($highestCount < $count) {
+                    $highestCount = $count;
+                    $count = 0;
+                }
+                $count = 0;
+            }
+        }
+        return [$count, $highestCount];
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\SendMailController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\TestController;
 
 //ユーザー
 Route::apiResource('/users', UserController::class);
@@ -19,6 +20,7 @@ Route::post('/users/update/password', [UserController::class, 'updatePassword'])
 Route::apiResource('/todoLists', TodoController::class)->except('index');
 Route::get('/todoLists/today/{id}', [TodoController::class, 'today']);
 Route::get('/todoLists/user/{id}', [TodoController::class, 'userAllTodo']);
+Route::get('/todoLists/calender/{id}', [TodoController::class, 'todoForCalender']);
 Route::apiResource('/todoLists/done', TodoDoneController::class)->only(['show', 'update', 'destroy']);
 
 //ファイル
@@ -49,9 +51,8 @@ Route::post('/statistics/month/back', [StatisticsController::class, 'backMonth']
 Route::post('/statistics/month/forward', [StatisticsController::class, 'forwardMonth']);
 
 Route::post('/statistics/count', [StatisticsController::class, 'allCountData']);
-
-Route::post('/statistics/doneDay', [StatisticsController::class, 'doneDay']);
-
-
+Route::post('/statistics/doneDate', [StatisticsController::class, 'doneDate']);
+Route::post('/statistics/continuous', [StatisticsController::class, 'continuous']);
 
 
+Route::get('/test', [TestController::class, 'index']);

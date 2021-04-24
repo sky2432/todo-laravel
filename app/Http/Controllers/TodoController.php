@@ -15,7 +15,7 @@ class TodoController extends Controller
         return response()->json([
             'message' => 'Created successfully',
             'data' => $item,
-        ]);
+        ], 200);
     }
 
     public function show($id)
@@ -76,8 +76,8 @@ class TodoController extends Controller
         $todayItems = [];
         foreach ($items as $item) {
             $deadline = new Carbon($item->deadline);
-            if($deadline->eq($today)) {
-              $todayItems[] = $item;
+            if ($deadline->eq($today)) {
+                $todayItems[] = $item;
             }
         }
 
@@ -99,5 +99,16 @@ class TodoController extends Controller
             ], 200);
     }
 
-
+    public function todoForCalender($id)
+    {
+        $items = TodoList::where('user_id', $id)
+        ->where('status', true)
+        ->whereNotNull('deadline')
+        ->get();
+        
+        return response()->json([
+                'message' => 'OK',
+                'data' => $items
+            ], 200);
+    }
 }

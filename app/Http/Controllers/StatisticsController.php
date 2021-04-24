@@ -6,6 +6,9 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Services\StatisticsService;
 use App\Services\StatisticsCountService;
+use App\Models\TodoList;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class StatisticsController extends Controller
 {
@@ -154,8 +157,41 @@ class StatisticsController extends Controller
         ]);
     }
 
-    public function doneDay(Request $request) {
+    public function doneDate(Request $request)
+    {
         $id = $request->id;
 
+        $data = TodoList::where('user_id', $id)
+        ->select(DB::raw('DATE_FORMAT(done_at, "%Y-%m-%d") as day'))
+        ->groupBy('day')
+        ->get();
+
+        foreach ($data as $val) {
+            $dbData[] = $val->day;
+        }
+
+        return response()->json([
+            'data' => $dbData,
+        ]);
+    }
+
+    public function continuous(Request $request)
+    {
+        $id = $request->id;
+        
+        $startDate = User::where('id', $id)->value('created_at');
+        $begin = Carbon::create($startDate->year, $startDate->month, $startDate->day);
+        
+        $dbEnd = Carbon::today();
+        $rangeEnd = $dbEnd->copy()->addDay();
+
+        $data = StatisticsService::day($id, $begin, $rangeEnd, $dbEnd);
+
+        [$count, $highestCount] = StatisticsCountService::countContinuous($data);
+
+        return response()->json([
+            'current' => $count,
+            'highest' => $highestCount,
+        ]);
     }
 }

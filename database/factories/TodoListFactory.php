@@ -22,7 +22,7 @@ class TodoListFactory extends Factory
      */
     public function definition()
     {
-        $deadline = $this->faker->randomElement([null, now()->format('Y-m-d'), $this->faker->dateTimeBetween('-1week', '1month')->format('Y-m-d')], );
+        $deadline = $this->faker->randomElement([null, $this->faker->dateTimeBetween('-1week', '1month')->format('Y-m-d')], );
 
         if ($deadline === null) {
             $remind_day = null;
@@ -59,7 +59,7 @@ class TodoListFactory extends Factory
             'ミーティング',
             '資料作成',
             'プログラミング',
-            '長いTodoです。長いTodoです。長いTodoです。長いTodoです。長いTodoです。'
+            '長いTodoです。長いTodoです。',
         ];
 
         return [
