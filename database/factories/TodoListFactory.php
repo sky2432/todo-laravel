@@ -38,7 +38,7 @@ class TodoListFactory extends Factory
             $done_at = null;
         }
         if ($status === false) {
-            $done_at = $this->faker->dateTimeBetween('-1year', 'now')->format('Y-m-d');
+            $done_at = $this->faker->dateTimeBetween('-1year', 'now')->format('Y-m-d H:i:s');
         }
 
         $todoLists = [

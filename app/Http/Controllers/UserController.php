@@ -28,7 +28,7 @@ class UserController extends Controller
     public function index()
     {
         $item = User::where('role', 'user')->get();
-        
+
         return response()->json([
             'message' => 'ok',
             'data' => $item
@@ -38,13 +38,13 @@ class UserController extends Controller
     public function show($id)
     {
         $item = User::find($id);
-        
+
         return response()->json([
             'message' => 'ok',
             'data' => $item
         ], 200);
     }
-    
+
     public function store(Request $request)
     {
         $item = new User();
@@ -61,10 +61,10 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         UserUpdateRequest::rules($request, $id);
-            
+
         $item = User::find($id);
         $item ->fill($request->all())->save();
-        
+
         return response()->json([
                 'message' => 'Ok',
                 'data' => $item,
@@ -83,7 +83,7 @@ class UserController extends Controller
             'message' => 'Account Deleted',
         ]);
     }
-    
+
     public function updatePassword(Request $request)
     {
         $item = User::find($request->id);
@@ -91,7 +91,7 @@ class UserController extends Controller
 
         $item->password = Hash::make($request->newPassword);
         $item->save();
-        
+
         return response()->json([
                 'message' => 'Ok',
                 'data' => $item,

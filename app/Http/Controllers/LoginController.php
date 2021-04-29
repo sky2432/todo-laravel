@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Str;
+
 
 class LoginController extends Controller
 {
     public function confirm(Request $request)
     {
         $item = User::where('email', $request->email)->first();
-        
+
 
         $request->validate([
             'email' => ['required','email:rfc,dns','exists:users',
@@ -24,7 +26,8 @@ class LoginController extends Controller
                 },
             ]
         ]);
-        
+
+
         return response()->json([
                 'message' => 'Validate OK',
             ], 200);
@@ -34,10 +37,14 @@ class LoginController extends Controller
     {
         $item = User::where('email', $request->email)->first();
         if (Hash::check($request->password, $item->password)) {
+            $item->api_token = Str::random(60);
+            $item->save();
+
             return response()->json([
                 'auth' => true,
                 'data' => $item,
             ], 200);
+
         } else {
             return response()->json(['auth' => false], 200);
         }

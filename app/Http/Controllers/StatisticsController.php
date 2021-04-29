@@ -15,11 +15,11 @@ class StatisticsController extends Controller
     public function day(Request $request)
     {
         $id = $request->id;
-        $dbEnd = Carbon::today();
-        $rangeEnd = $dbEnd->copy()->addDay();
-        $begin = $dbEnd->copy()->subdays(6);
+        $today = Carbon::today();
+        $end = $today->copy()->endOfDay();//23:59:59.999999
+        $begin = $today->copy()->subdays(6);
 
-        $data = StatisticsService::day($id, $begin, $rangeEnd, $dbEnd);
+        $data = StatisticsService::day($id, $begin, $end);
 
         return response()->json([
             'data' => $data,
@@ -28,12 +28,14 @@ class StatisticsController extends Controller
 
     public function backDay(Request $request)
     {
+        // $id = 2;
+        // $date = new Carbon("2021-04-23");
         $id = $request->id;
-        $rangeEnd = new Carbon($request->data);
-        $dbEnd = $rangeEnd->copy()->subDay();
-        $begin = $dbEnd->copy()->subdays(6);
+        $date = new Carbon($request->data);
+        $end = $date->copy()->subDay()->endOfDay();//例：2020-04-22 23:59:59.0
+        $begin = $date->copy()->subdays(7);
 
-        $data = StatisticsService::day($id, $begin, $rangeEnd, $dbEnd);
+        $data = StatisticsService::day($id, $begin, $end);
 
         return response()->json([
             'data' => $data,
@@ -42,13 +44,14 @@ class StatisticsController extends Controller
 
     public function forwardDay(Request $request)
     {
+        // $id = 2;
+        // $date = new Carbon("2021-04-22");
         $id = $request->id;
-        $specificDay = new Carbon($request->data);
-        $begin = $specificDay->copy()->addDay();
-        $dbEnd = $begin->copy()->adddays(6);
-        $rangeEnd = $dbEnd->copy()->addDay();
+        $date = new Carbon($request->data);
+        $begin = $date->copy()->addDay();
+        $end = $begin->copy()->adddays(6)->endOfDay();
 
-        $data = StatisticsService::day($id, $begin, $rangeEnd, $dbEnd);
+        $data = StatisticsService::day($id, $begin, $end);
 
         return response()->json([
             'data' => $data,
@@ -57,12 +60,15 @@ class StatisticsController extends Controller
 
     public function week(Request $request)
     {
+        // $id = 2;
         $id = $request->id;
-        $dbEnd = Carbon::today();
-        $rangeEnd = $dbEnd->copy()->addDay();
-        $begin = $dbEnd->copy()->subweeks(6)->startOfWeek();
+        $today = Carbon::today();
+        $end = $today->copy()->endOfDay();
+        $begin = $end->copy()->subweeks(6)->startOfWeek();
 
-        $data = StatisticsService::week($id, $begin, $rangeEnd, $dbEnd);
+        $data = StatisticsService::week($id, $begin, $end);
+
+        // dd($data);
 
         return response()->json([
             'data' => $data,
@@ -71,12 +77,16 @@ class StatisticsController extends Controller
 
     public function backWeek(Request $request)
     {
+        // $id = 2;
+        // $date = new Carbon("2021-03-15");
         $id = $request->id;
-        $rangeEnd = new Carbon($request->data);
-        $dbEnd = $rangeEnd->copy()->subDay();
-        $begin = $dbEnd->copy()->subWeeks(6)->startOfWeek();
+        $date = new Carbon($request->data);
+        $end = $date->copy()->subDay()->endOfDay();
+        $begin = $end->copy()->subWeeks(6)->startOfWeek();
 
-        $data = StatisticsService::week($id, $begin, $rangeEnd, $dbEnd);
+        // dd($begin);
+
+        $data = StatisticsService::week($id, $begin, $end);
 
         return response()->json([
             'data' => $data,
@@ -86,12 +96,16 @@ class StatisticsController extends Controller
     public function forwardWeek(Request $request)
     {
         $id = $request->id;
-        $specificDay = new Carbon($request->data);
-        $begin = $specificDay->copy()->addWeek();
-        $rangeEnd = $begin->copy()->addWeeks(7);
-        $dbEnd = $rangeEnd->copy()->subDay();
+        $date = new Carbon($request->data);
+        // $id = 2;
+        // $date = new Carbon("2021-03-08");
 
-        $data = StatisticsService::week($id, $begin, $rangeEnd, $dbEnd);
+        $begin = $date->copy()->addWeek();
+        $end = $begin->copy()->addWeeks(7)->subDay()->endOfDay();
+
+        $data = StatisticsService::week($id, $begin, $end);
+
+        // dd($data);
 
         return response()->json([
             'data' => $data,
@@ -100,12 +114,15 @@ class StatisticsController extends Controller
 
     public function month(Request $request)
     {
+        // $id = 2;
         $id = $request->id;
-        $dbEnd = Carbon::today();
-        $rangeEnd = $dbEnd->copy()->addDay();
-        $begin = $dbEnd->copy()->subMonths(6)->day(1);
+        $today = Carbon::today();
+        $end = $today->copy()->endOfDay();
+        $begin = $today->copy()->subMonths(6)->day(1);
 
-        $data = StatisticsService::month($id, $begin, $rangeEnd, $dbEnd);
+        $data = StatisticsService::month($id, $begin, $end);
+
+        // dd($begin);
 
         return response()->json([
             'data' => $data,
@@ -114,12 +131,17 @@ class StatisticsController extends Controller
 
     public function backMonth(Request $request)
     {
-        $id = $request->id;
-        $rangeEnd = new Carbon($request->data);//例: 2020-10
-        $dbEnd = $rangeEnd->copy()->subDay();//例: 2020-9-30
-        $begin = $rangeEnd->copy()->subMonths(7);//例: 2020-3
+        // $id = 2;
+        // $date = new Carbon("2020-10");
 
-        $data = StatisticsService::month($id, $begin, $rangeEnd, $dbEnd);
+        $id = $request->id;
+        $date = new Carbon($request->data);//例: 2020-10
+        $end = $date->copy()->subDay()->endOfDay();//例: 2020-9-30
+        $begin = $date->copy()->subMonths(7);//例: 2020-3
+
+        $data = StatisticsService::month($id, $begin, $end);
+
+        // dd($data);
 
         return response()->json([
             'data' => $data,
@@ -129,12 +151,11 @@ class StatisticsController extends Controller
     public function forwardMonth(Request $request)
     {
         $id = $request->id;
-        $specificDay = new Carbon($request->data);//例: 2020-9
-        $begin = $specificDay->copy()->addMonth();//例: 2020-10
-        $rangeEnd = $begin->copy()->addMonths(7);//例: 2021-5
-        $dbEnd = $rangeEnd->copy()->subDay();//例: 2021-4-30
+        $date = new Carbon($request->data);//例: 2020-9
+        $begin = $date->copy()->addMonth();//例: 2020-10-01
+        $end = $begin->copy()->addMonths(7)->subDay()->endOfDay();//例: 2021-04-03 23:59:59.999999
 
-        $data = StatisticsService::month($id, $begin, $rangeEnd, $dbEnd);
+        $data = StatisticsService::month($id, $begin, $end);
 
         return response()->json([
             'data' => $data,
@@ -150,7 +171,7 @@ class StatisticsController extends Controller
         $data[] = $count->countDay($id);
         $data[] = $count->countAll($id);
         $data[] = $count->countMonth($id);
-        $data[] = $count->avarageDay($id);
+        $data[] = $count->averageDay($id);
 
         return response()->json([
             'data' => $data,
@@ -178,14 +199,13 @@ class StatisticsController extends Controller
     public function continuous(Request $request)
     {
         $id = $request->id;
-        
         $startDate = User::where('id', $id)->value('created_at');
         $begin = Carbon::create($startDate->year, $startDate->month, $startDate->day);
-        
-        $dbEnd = Carbon::today();
-        $rangeEnd = $dbEnd->copy()->addDay();
 
-        $data = StatisticsService::day($id, $begin, $rangeEnd, $dbEnd);
+        $today = Carbon::today();
+        $end = $today->copy()->endOfDay();
+
+        $data = StatisticsService::day($id, $begin, $end);
 
         [$count, $highestCount] = StatisticsCountService::countContinuous($data);
 

@@ -31,7 +31,7 @@ class StatisticsCountService
     public function countMonth($id)
     {
         $now = Carbon::today();
-        
+
         $data = TodoList::where('user_id', $id)
         ->whereYear('done_at', $now->year)
         ->whereMonth('done_at', $now->month)
@@ -40,13 +40,13 @@ class StatisticsCountService
         return $data;
     }
 
-    public function avarageDay($id)
+    public function averageDay($id)
     {
         $begin = User::where('id', $id)->value('created_at');
         $now = Carbon::today();
 
         $allDay = $now->copy()->diffInDays($begin) + 1;
-        
+
         $data = TodoList::where('user_id', $id)
         ->whereNotNull('done_at')
         ->count();

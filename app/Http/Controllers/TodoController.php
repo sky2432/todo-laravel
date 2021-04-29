@@ -24,7 +24,7 @@ class TodoController extends Controller
         ->where('status', true)
         ->latest('id')
         ->get();
-        
+
         return response()->json([
                 'message' => 'OK',
                 'data' => $items
@@ -49,7 +49,7 @@ class TodoController extends Controller
     public function destroy($id)
     {
         $item = TodoList::find($id);
-        $item->done_at = Carbon::today();
+        $item->done_at = new Carbon();
         $item->status = false;
         $item->save();
 
@@ -92,7 +92,7 @@ class TodoController extends Controller
         $items = TodoList::where('user_id', $id)
         ->latest('id')
         ->get();
-        
+
         return response()->json([
                 'message' => 'OK',
                 'data' => $items
@@ -105,7 +105,7 @@ class TodoController extends Controller
         ->where('status', true)
         ->whereNotNull('deadline')
         ->get();
-        
+
         return response()->json([
                 'message' => 'OK',
                 'data' => $items
