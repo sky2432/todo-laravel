@@ -46,20 +46,26 @@ class TodoController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function done(Request $request, $id)
     {
         $item = TodoList::find($id);
-        $item->done_at = new Carbon();
-        $item->status = false;
-        $item->save();
+        if (!$item) {
+            return response()->json([
+                'message' => 'Not found',
+            ], 404);
+        }
 
-        if ($item) {
+        if ($request->id === $item->user_id) {
+            $item->done_at = new Carbon();
+            $item->status = false;
+            $item->save();
+
             return response()->json([
                 'message' => 'Done successfully',
             ], 200);
         } else {
             return response()->json([
-                'message' => 'Not found',
+                'message' => 'Not allowed',
             ], 404);
         }
     }

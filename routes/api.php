@@ -11,13 +11,13 @@ use App\Http\Controllers\SendMailController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\TestController;
 
-
 Route::group(['middleware' => 'auth:api'], function () {
     // ユーザー
     Route::post('/users/update/password', [UserController::class, 'updatePassword']);
 
     //Todo
-    Route::apiResource('/todoLists', TodoController::class)->except('index');
+    Route::apiResource('/todoLists', TodoController::class)->except('index', 'destroy');
+    Route::put('/todoLists/done/{id}', [TodoController::class, 'done']);
     Route::get('/todoLists/today/{id}', [TodoController::class, 'today']);
     Route::get('/todoLists/user/{id}', [TodoController::class, 'userAllTodo']);
     Route::get('/todoLists/calender/{id}', [TodoController::class, 'todoForCalender']);
@@ -50,6 +50,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 //ユーザー
 Route::apiResource('/users', UserController::class);
+Route::post('/users/delete', [UserController::class, 'delete']);
 Route::post('/users/confirm', [UserController::class, 'confirm']);
 
 //メール

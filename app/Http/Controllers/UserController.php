@@ -33,6 +33,7 @@ class UserController extends Controller
             'message' => 'ok',
             'data' => $item
         ], 200);
+
     }
 
     public function show($id)
@@ -71,8 +72,9 @@ class UserController extends Controller
             ]);
     }
 
-    public function destroy($id)
+    public function delete(Request $request)
     {
+        $id = $request->id;
         TodoList::where('user_id', $id)->delete();
 
         DeleteFileService::deleteFile($id);
