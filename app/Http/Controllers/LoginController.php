@@ -14,7 +14,6 @@ class LoginController extends Controller
     {
         $item = User::where('email', $request->email)->first();
 
-
         $request->validate([
             'email' => ['required','email:rfc,dns','exists:users',
         ],
@@ -26,7 +25,6 @@ class LoginController extends Controller
                 },
             ]
         ]);
-
 
         return response()->json([
                 'message' => 'Validate OK',

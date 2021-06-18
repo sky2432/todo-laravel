@@ -42,10 +42,10 @@ class SendRemindMailCommand extends Command
     {
         $this->info('start');
 
-        Carbon::setTestNow('2021-04-17 12:00:00');
+        // Carbon::setTestNow('2021-04-17 12:00:00');
 
         $now = Carbon::now()->format('Y-m-d H:i:00');
-        
+
         $items = TodoList::where('status', 1)->whereNotNull('remind_day')->get();
         foreach ($items as $item) {
             $remind = new Carbon($item->deadline . $item->remind_time);

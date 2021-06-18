@@ -52,7 +52,6 @@ class RemindNotification extends Notification
         return (new MailMessage)
                     ->subject("リマインド通知")
                     ->line($notifiable->name . "様")
-                    // ->line("「{$this->item->todo_list}」のリマインドです")
                     ->line($context)
                     ->action('Todolistを確認', url('http://localhost:8080/login'))
                     ->salutation('Todolist運営より');
