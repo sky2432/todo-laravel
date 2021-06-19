@@ -59,6 +59,3 @@ Route::post('/sendMail/login', [SendMailController::class, 'login']);
 //ログイン・ログアウト
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/login/confirm', [LoginController::class, 'confirm']);
-
-
-Route::get('/test', [TestController::class, 'index']);
