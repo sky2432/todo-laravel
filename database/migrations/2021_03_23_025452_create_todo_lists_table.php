@@ -15,8 +15,7 @@ class CreateTodoListsTable extends Migration
     {
         Schema::create('todo_lists', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('todo_list');
             $table->date('deadline')->nullable();
             $table->tinyInteger('remind_day')->nullable();

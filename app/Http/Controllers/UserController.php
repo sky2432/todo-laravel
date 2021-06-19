@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\TodoList;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Requests\UpdatePasswordRequest;
@@ -12,6 +11,12 @@ use App\Services\DeleteFileService;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api')
+                 ->except(['confirm', 'store']);
+    }
+
     public function confirm(Request $request)
     {
         $request->validate([
@@ -72,11 +77,8 @@ class UserController extends Controller
             ]);
     }
 
-    public function delete(Request $request)
+    public function destroy($id)
     {
-        $id = $request->id;
-        TodoList::where('user_id', $id)->delete();
-
         DeleteFileService::deleteFile($id);
 
         User::destroy($id);

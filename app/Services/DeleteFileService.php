@@ -13,6 +13,8 @@ class DeleteFileService
         $fileName = $record->file_path;
         if ($fileName && !preg_match("/defaultImage/", $fileName )) {
             Storage::delete('public/image/' .$fileName);
+        } else {
+            return;
         }
     }
 }

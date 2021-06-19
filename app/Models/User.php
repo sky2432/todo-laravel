@@ -13,8 +13,14 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $fillable = [
-            'name',
-            'email',
+        'name',
+        'email',
+        'api_token',
+    ];
+
+    protected $hidden = [
+        'password',
+        'api_token',
     ];
 
     public function todoLists()
@@ -26,7 +32,7 @@ class User extends Authenticatable
     {
         return $this->email;
     }
-    
+
     public function routeNotificationForNexmo($notification)
     {
         return $this->phone_number;

@@ -35,11 +35,12 @@ class LoginController extends Controller
     {
         $item = User::where('email', $request->email)->first();
         if (Hash::check($request->password, $item->password)) {
-            $item->api_token = Str::random(60);
-            $item->save();
+            $token = Str::random(60);
+            $item->update(['api_token' => $token]);
 
             return response()->json([
                 'auth' => true,
+                'token' => $token,
                 'data' => $item,
             ], 200);
 
