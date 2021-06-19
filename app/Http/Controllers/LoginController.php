@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Support\Str;
 
-
 class LoginController extends Controller
 {
     public function confirm(Request $request)
@@ -35,15 +34,19 @@ class LoginController extends Controller
     {
         $item = User::where('email', $request->email)->first();
         if (Hash::check($request->password, $item->password)) {
-            $token = Str::random(60);
-            $item->update(['api_token' => $token]);
+            if ($item->role === 'guest') {
+                $token = $item->api_token;
+            } else {
+                $token = Str::random(60);
+                $item->api_token = $token;
+                $item->save();
+            }
 
             return response()->json([
                 'auth' => true,
                 'token' => $token,
                 'data' => $item,
             ], 200);
-
         } else {
             return response()->json(['auth' => false], 200);
         }

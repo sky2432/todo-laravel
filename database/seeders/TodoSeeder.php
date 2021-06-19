@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\TodoList;
 use Illuminate\Database\Seeder;
 
-class TodoFactorySeeder extends Seeder
+class TodoSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +14,6 @@ class TodoFactorySeeder extends Seeder
      */
     public function run()
     {
-        TodoList::factory()->count(10000)->create();
+        TodoList::factory(8000)->create();
     }
 }

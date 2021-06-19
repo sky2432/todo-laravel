@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\TodoList;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 
@@ -63,7 +64,7 @@ class TodoListFactory extends Factory
         ];
 
         return [
-            'user_id' => rand(2, 10),
+            'user_id' => User::pluck('id')->random(),
             'todo_list' => Arr::random($todoLists),
             'deadline' => $deadline,
             'status' => $status,

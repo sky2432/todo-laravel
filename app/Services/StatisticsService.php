@@ -32,9 +32,6 @@ class StatisticsService
 
         $data = array_replace($range, $dbData);
 
-        // dd($range);
-        // dd($dbData);
-
         return $data;
     }
 
@@ -93,10 +90,6 @@ class StatisticsService
             $newData[$begin->format('Y-m-d')] = $value ;
         }
 
-        // dd($range);
-        // dd($dbData);
-
-
         return $newData;
     }
 
@@ -120,9 +113,6 @@ class StatisticsService
         }
 
         $data = array_replace($range, $dbData);
-
-        // dd($range);
-        // dd($dbData);
 
         return $data;
     }

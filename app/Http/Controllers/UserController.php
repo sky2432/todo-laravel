@@ -38,7 +38,6 @@ class UserController extends Controller
             'message' => 'ok',
             'data' => $item
         ], 200);
-
     }
 
     public function show($id)
@@ -77,16 +76,6 @@ class UserController extends Controller
             ]);
     }
 
-    public function destroy($id)
-    {
-        DeleteFileService::deleteFile($id);
-
-        User::destroy($id);
-
-        return response()->json([
-            'message' => 'Account Deleted',
-        ]);
-    }
 
     public function updatePassword(Request $request)
     {
@@ -100,5 +89,16 @@ class UserController extends Controller
                 'message' => 'Ok',
                 'data' => $item,
             ]);
+    }
+
+    public function destroy($id)
+    {
+        DeleteFileService::deleteFile($id);
+
+        User::destroy($id);
+
+        return response()->json([
+            'message' => 'Account Deleted',
+        ]);
     }
 }
