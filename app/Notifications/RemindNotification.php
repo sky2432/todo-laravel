@@ -53,7 +53,7 @@ class RemindNotification extends Notification
                     ->subject("リマインド通知")
                     ->line($notifiable->name . "様")
                     ->line($context)
-                    ->action('Todolistを確認', url('http://localhost:8080/login'))
+                    ->action('Todolistを確認', url(config('data.LOGIN_URL')))
                     ->salutation('Todolist運営より');
     }
 

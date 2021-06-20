@@ -46,7 +46,7 @@ class LoginNotification extends Notification
                     ->line($notifiable->name . "様")
                     ->line($notifiable->email. "でログインが確認されました")
                     ->line("ご本人かご確認ください")
-                    ->action('Todolist', url('http://localhost:8080/login'))
+                    ->action('Todolist', url(config('data.LOGIN_URL')))
                     ->salutation('Todolist運営より');
     }
 

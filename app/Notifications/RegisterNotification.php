@@ -45,7 +45,7 @@ class RegisterNotification extends Notification
                     ->line($notifiable->name . "様")
                     ->line("会員登録ありがとうございます。")
                     ->line("下のボタンからでもTodolistにログインできます。")
-                    ->action('Todolist', url('http://localhost:8080/login'))
+                    ->action('Todolist', url(config('data.LOGIN_URL')))
                     ->salutation('Todolist運営より');
     }
 

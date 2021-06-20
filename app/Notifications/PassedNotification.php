@@ -45,7 +45,7 @@ class PassedNotification extends Notification
                     ->line($notifiable->name . "様")
                     ->line("「{$this->item->todo_list}」の期限が過ぎております。")
                     ->line("Todoを行い完了させましょう")
-                    ->action('Todolistを確認', url('http://localhost:8080/login'))
+                    ->action('Todolistを確認', url(config('data.LOGIN_URL')))
                     ->salutation('Todolist運営より');
     }
 

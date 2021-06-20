@@ -6,10 +6,5 @@ return [
   'DEFAULT_IMAGE3' => 'defaultImage3.jpg',
   'DEFAULT_IMAGE4' => 'defaultImage4.jpg',
   'DEFAULT_IMAGE5' => 'defaultImage5.jpg',
-  'REGISTER_MAIL_SUBJECT' => '会員登録完了通知',
-  'LOGIN_MAIL_SUBJECT' => 'ログイン通知',
-  'REMIND_MAIL_SUBJECT' => 'リマインドメール',
-  'REGISTER_MAIL_VIEW' => 'emails.register_mail',
-  'LOGIN_MAIL_VIEW' => 'emails.login_mail',
-  'REMIND_MAIL_VIEW' => 'emails.remind_mail',
+  'LOGIN_URL'=> env('LOGIN_URL')
 ];
