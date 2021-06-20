@@ -67,9 +67,9 @@ class TodoListFactory extends Factory
             'user_id' => User::pluck('id')->random(),
             'todo_list' => Arr::random($todoLists),
             'deadline' => $deadline,
-            'status' => $status,
             'remind_day' => $remind_day,
             'remind_time' => $remind_time,
+            'status' => $status,
             'done_at' => $done_at,
         ];
     }

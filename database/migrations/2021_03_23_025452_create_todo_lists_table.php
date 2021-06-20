@@ -20,6 +20,7 @@ class CreateTodoListsTable extends Migration
             $table->date('deadline')->nullable();
             $table->tinyInteger('remind_day')->nullable();
             $table->time('remind_time')->nullable();
+            $table->boolean('status');
             $table->dateTime('done_at')->nullable();
             $table->timestamps();
         });
