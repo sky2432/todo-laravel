@@ -6,5 +6,6 @@ return [
   'DEFAULT_IMAGE3' => 'defaultImage3.jpg',
   'DEFAULT_IMAGE4' => 'defaultImage4.jpg',
   'DEFAULT_IMAGE5' => 'defaultImage5.jpg',
-  'LOGIN_URL'=> env('LOGIN_URL')
+  'DEFAULT_IMAGE_URL' => 'https://todolist-dev.s3.ap-northeast-1.amazonaws.com/default-image.jpg',
+  'LOGIN_URL'=> env('LOGIN_URL'),
 ];
