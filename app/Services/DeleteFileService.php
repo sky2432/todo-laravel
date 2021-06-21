@@ -9,10 +9,10 @@ class DeleteFileService
 {
     public static function deleteFile($id)
     {
-        $record = User::find($id);
-        $fileName = $record->file_path;
-        if ($fileName && !preg_match("/defaultImage/", $fileName )) {
-            Storage::delete('public/image/' .$fileName);
+        $item = User::find($id);
+        $file_name = basename($item->file_path);
+        if (Storage::disk('s3')->exists($file_name) && $item->file_path !== config('data.DEFAULT_IMAGE_URL')) {
+            Storage::disk('s3')->delete($file_name);
         } else {
             return;
         }

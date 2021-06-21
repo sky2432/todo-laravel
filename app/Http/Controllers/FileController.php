@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Carbon\Carbon;
 use App\Services\DeleteFileService;
-
+use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
@@ -22,13 +21,11 @@ class FileController extends Controller
     {
         DeleteFileService::deleteFile($id);
 
-        $time = Carbon::now()->format('Y-m-d_H-i-s_');
-        $file_name = $time . request()->file->getClientOriginalName();
-
-        request()->file->storeAs('public/image/', $file_name);
+        $path = Storage::disk('s3')->putFile('/', request()->image, 'public');
+        $url = Storage::disk('s3')->url($path);
 
         $item = User::find($id);
-        $item->file_path = $file_name;
+        $item->file_path = $url;
         $item->save();
 
         return response()->json([
