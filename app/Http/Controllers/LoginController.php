@@ -14,7 +14,7 @@ class LoginController extends Controller
         $item = User::where('email', $request->email)->first();
 
         $request->validate([
-            'email' => ['required','email:rfc,dns','exists:users',
+            'email' => ['required','email','exists:users',
         ],
             'password' => ['required',
                 function ($attribute, $value, $fail) use ($item) {
