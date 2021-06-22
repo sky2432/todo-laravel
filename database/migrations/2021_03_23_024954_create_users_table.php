@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email', 255)->unique();
             $table->string('password', 255);
             $table->string('api_token', 60)->nullable()->default(null);
-            $table->string('file_path')->default(config('data.DEFAULT_IMAGE1'));
+            $table->string('file_path')->default(config('data.DEFAULT_IMAGE_URL'));
             $table->enum('role', ['user', 'admin', 'guest'])->default('user');
             $table->timestamps();
         });
