@@ -8,4 +8,5 @@ return [
   'DEFAULT_IMAGE5' => 'defaultImage5.jpg',
   'DEFAULT_IMAGE_URL' => 'https://todolist-dev.s3.ap-northeast-1.amazonaws.com/default-image.jpg',
   'LOGIN_URL'=> env('LOGIN_URL'),
+  'ADMIN_PASSWORD' => env('ADMIN_PASSWORD'),
 ];

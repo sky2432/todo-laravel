@@ -1,9 +1,8 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\local;
 
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -23,7 +22,7 @@ class UserSeeder extends Seeder
 
         User::factory()->create([
             'name' => 'ゲスト',
-            'email' => 'guest@guest.com',
+            'email' => 'guest@user.com',
             'role' => 'guest',
             'api_token' => 1234,
         ]);
