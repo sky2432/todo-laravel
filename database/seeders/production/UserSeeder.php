@@ -19,12 +19,13 @@ class UserSeeder extends Seeder
         User::factory()->create([
             'name' => 'admin',
             'email' => 'admin@test.com',
+            'password' => Hash::make(config('data.ADMIN_PASSWORD')),
             'role' => 'admin',
         ]);
+
         User::factory()->create([
             'name' => 'ゲスト',
             'email' => 'guest@user.com',
-            'password' => Hash::make(config('data.ADMIN_PASSWORD')),
             'role' => 'guest',
             'api_token' => 1234,
         ]);
