@@ -49,7 +49,7 @@ class TodoListFactory extends Factory
             'レポート',
             '書類提出',
             'メルカリ',
-            '電話',
+            '調べ物',
             'メール',
             '買い物',
             '掃除',
@@ -64,7 +64,7 @@ class TodoListFactory extends Factory
         ];
 
         return [
-            'user_id' => User::pluck('id')->random(),
+            'user_id' => User::whereNotIn('role', ['admin'])->pluck('id')->random(),
             'todo_list' => Arr::random($todoLists),
             'deadline' => $deadline,
             'remind_day' => $remind_day,
