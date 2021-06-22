@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\production;
 
 use App\Models\TodoList;
 use Illuminate\Database\Seeder;
@@ -14,6 +14,6 @@ class TodoSeeder extends Seeder
      */
     public function run()
     {
-        TodoList::factory(5000)->create();
+        TodoList::factory(1000)->create();
     }
 }
