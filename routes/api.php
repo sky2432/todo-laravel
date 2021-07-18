@@ -12,7 +12,7 @@ use App\Http\Controllers\StatisticsController;
 
 Route::group(['middleware' => 'auth:api'], function () {
     //Todo
-    Route::apiResource('/todoLists', TodoController::class)->except('index', 'destroy');
+    Route::apiResource('/todoLists', TodoController::class)->except('index');
     Route::get('/todoLists/today/{id}', [TodoController::class, 'today']);
     Route::get('/todoLists/user/{id}', [TodoController::class, 'userAllTodo']);
     Route::get('/todoLists/calender/{id}', [TodoController::class, 'todoForCalender']);
